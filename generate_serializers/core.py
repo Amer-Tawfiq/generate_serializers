@@ -31,7 +31,7 @@ def generate_serializers_for_apps(app_names, project_settings_module='my_project
 
         for model in app_models:
             model_name = model.__name__
-            file_name = f"{model_name.lower()}_serializer.py"
+            file_name = f"{model_name}.py"
             file_path = os.path.join(serializers_dir, file_name)
 
             if os.path.exists(file_path):
@@ -39,13 +39,13 @@ def generate_serializers_for_apps(app_names, project_settings_module='my_project
                 continue
 
             content = f"""from rest_framework import serializers
-from ..models import {model_name}
+                    from ..models import {model_name}
 
-class {model_name}Serializer(serializers.ModelSerializer):
-    class Meta:
-        model = {model_name}
-        fields = '__all__'
-"""
+                    class {model_name}Serializer(serializers.ModelSerializer):
+                        class Meta:
+                            model = {model_name}
+                            fields = '__all__'
+                """
 
             with open(file_path, 'w', encoding='utf-8') as f:
                 f.write(content)
